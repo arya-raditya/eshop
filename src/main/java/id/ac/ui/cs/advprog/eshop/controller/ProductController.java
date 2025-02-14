@@ -42,6 +42,7 @@ public class ProductController {
         Product product = service.findById(productId);
         if (product == null) {
             return "redirect:list";
+            // Atau tampilkan error page
         }
         model.addAttribute("product", product);
         return "editProduct"; // Nama file template untuk edit
@@ -50,6 +51,23 @@ public class ProductController {
     @PostMapping("/edit")
     public String editProductPost(@ModelAttribute Product product, Model model) {
         service.update(product.getProductId(), product);
+        return "redirect:list";
+    }
+
+    // Bagian DELETE Product
+    @GetMapping("/delete/{productId}")
+    public String deleteProductPage(@PathVariable String productId, Model model) {
+        Product product = service.findById(productId);
+        if (product == null) {
+            return "redirect:list"; // Atau tampilkan error page
+        }
+        model.addAttribute("product", product);
+        return "deleteProduct"; // Nama file template untuk delete
+    }
+
+    @PostMapping("/delete")
+    public String deleteProduct(@ModelAttribute Product product) {
+        service.delete(product.getProductId());
         return "redirect:list";
     }
 }

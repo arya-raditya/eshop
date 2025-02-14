@@ -53,4 +53,8 @@ public class ProductRepository {
         }
         return null; // Product not found
     }
+
+    public void delete(String productId) {
+        productData.removeIf(product -> product.getProductId().equals(productId));
+    }
 }
