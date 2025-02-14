@@ -69,4 +69,41 @@ class ProductRepositoryTest {
 
         assertFalse(products.hasNext());
     }
+
+    @Test
+    void testUpdateProduct() {
+        Product product = new Product();
+        product.setProductId("123e4567-e89b-12d3-a456-556642440000");
+        product.setProductName("Product 1");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("123e4567-e89b-12d3-a456-556642440000"); // Same ID
+        updatedProduct.setProductName("Product 1 Updated");
+        updatedProduct.setProductQuantity(200);
+        productRepository.update(product.getProductId(), updatedProduct);
+
+        Product foundProduct = productRepository.findById(product.getProductId());
+        assertNotNull(foundProduct);
+        assertEquals("Product 1 Updated", foundProduct.getProductName());
+        assertEquals(200, foundProduct.getProductQuantity());
+    }
+
+    @Test
+    void testDeleteProduct() {
+        Product product = new Product();
+        product.setProductId("123e4567-e89b-12d3-a456-556642440000");
+        product.setProductName("Product 1");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        productRepository.delete(product.getProductId());
+
+        Product foundProduct = productRepository.findById(product.getProductId());
+        assertNull(foundProduct);
+
+        Iterator<Product> products = productRepository.findAll();
+        assertFalse(products.hasNext());
+    }
 }
