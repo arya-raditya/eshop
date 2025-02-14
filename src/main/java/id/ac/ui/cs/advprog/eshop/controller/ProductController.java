@@ -36,16 +36,15 @@ public class ProductController {
         return "productList";
     }
 
-    // Bagian EDIT Product
     @GetMapping("/edit/{productId}")
     public String editProductPage(@PathVariable String productId, Model model) {
         Product product = service.findById(productId);
         if (product == null) {
             return "redirect:list";
-            // Atau tampilkan error page
+
         }
         model.addAttribute("product", product);
-        return "editProduct"; // Nama file template untuk edit
+        return "editProduct";
     }
 
     @PostMapping("/edit")
@@ -54,15 +53,14 @@ public class ProductController {
         return "redirect:list";
     }
 
-    // Bagian DELETE Product
     @GetMapping("/delete/{productId}")
     public String deleteProductPage(@PathVariable String productId, Model model) {
         Product product = service.findById(productId);
         if (product == null) {
-            return "redirect:list"; // Atau tampilkan error page
+            return "redirect:list";
         }
         model.addAttribute("product", product);
-        return "deleteProduct"; // Nama file template untuk delete
+        return "deleteProduct";
     }
 
     @PostMapping("/delete")
