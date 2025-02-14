@@ -16,7 +16,6 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
-
     @GetMapping("/create")
     public String createProductPage(Model model) {
         Product product = new Product();
@@ -35,5 +34,22 @@ public class ProductController {
         List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
         return "productList";
+    }
+
+    // Bagian EDIT Product
+    @GetMapping("/edit/{productId}")
+    public String editProductPage(@PathVariable String productId, Model model) {
+        Product product = service.findById(productId);
+        if (product == null) {
+            return "redirect:list";
+        }
+        model.addAttribute("product", product);
+        return "editProduct"; // Nama file template untuk edit
+    }
+
+    @PostMapping("/edit")
+    public String editProductPost(@ModelAttribute Product product, Model model) {
+        service.update(product.getProductId(), product);
+        return "redirect:list";
     }
 }
