@@ -8,32 +8,36 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.InjectMocks;
 
 import java.util.Iterator;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class ProductRepositoryTest {
+
     @InjectMocks
     ProductRepository productRepository;
+
     @BeforeEach
     void setUp() {
-
+        productRepository = new ProductRepository();
     }
 
     @Test
     void testCreateAndFind() {
         Product product = new Product();
-        product.setProductId("123e4567-e89b-12d3-a456-556642440000");
         product.setProductName("Product 1");
         product.setProductQuantity(100);
-        productRepository.create(product);
+        Product createdProduct = productRepository.create(product);
+
+        assertNotNull(createdProduct.getProductId());
 
         Iterator<Product> products = productRepository.findAll();
         assertTrue(products.hasNext());
 
         Product savedProduct = products.next();
 
-        assertEquals(product.getProductId(), savedProduct.getProductId());
+        assertEquals(createdProduct.getProductId(), savedProduct.getProductId());
         assertEquals(product.getProductName(), savedProduct.getProductName());
         assertEquals(product.getProductQuantity(), savedProduct.getProductQuantity());
     }
@@ -47,16 +51,14 @@ class ProductRepositoryTest {
     @Test
     void testFindAllIfMoreThanOneProduct() {
         Product product1 = new Product();
-        product1.setProductId("123e4567-e89b-12d3-a456-556642440000");
         product1.setProductName("Product 1");
         product1.setProductQuantity(100);
-        productRepository.create(product1);
+        product1 = productRepository.create(product1);
 
         Product product2 = new Product();
-        product2.setProductId("123e4567-e89b-12d3-a456-556642440001");
         product2.setProductName("Product 2");
         product2.setProductQuantity(200);
-        productRepository.create(product2);
+        product2 = productRepository.create(product2);
 
         Iterator<Product> products = productRepository.findAll();
         assertTrue(products.hasNext());
@@ -73,17 +75,16 @@ class ProductRepositoryTest {
     @Test
     void testUpdateProduct() {
         Product product = new Product();
-        product.setProductId("123e4567-e89b-12d3-a456-556642440000");
         product.setProductName("Product 1");
         product.setProductQuantity(100);
-        productRepository.create(product);
+        product = productRepository.create(product);
 
         Product updatedProduct = new Product();
-        updatedProduct.setProductId("123e4567-e89b-12d3-a456-556642440000"); // Same ID
         updatedProduct.setProductName("Product 1 Updated");
         updatedProduct.setProductQuantity(200);
-        productRepository.update(product.getProductId(), updatedProduct);
+        Product result = productRepository.update(product.getProductId(), updatedProduct);
 
+        assertNotNull(result);
         Product foundProduct = productRepository.findById(product.getProductId());
         assertNotNull(foundProduct);
         assertEquals("Product 1 Updated", foundProduct.getProductName());
@@ -91,12 +92,27 @@ class ProductRepositoryTest {
     }
 
     @Test
-    void testDeleteProduct() {
+    void testUpdateProduct_NotFound() {
+        // Create a product first
         Product product = new Product();
-        product.setProductId("123e4567-e89b-12d3-a456-556642440000");
         product.setProductName("Product 1");
         product.setProductQuantity(100);
         productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Product 1 Updated");
+        updatedProduct.setProductQuantity(200);
+        Product result = productRepository.update(UUID.randomUUID().toString(), updatedProduct);
+
+        assertNull(result);
+    }
+
+    @Test
+    void testDeleteProduct() {
+        Product product = new Product();
+        product.setProductName("Product 1");
+        product.setProductQuantity(100);
+        product = productRepository.create(product);
 
         productRepository.delete(product.getProductId());
 
@@ -105,5 +121,106 @@ class ProductRepositoryTest {
 
         Iterator<Product> products = productRepository.findAll();
         assertFalse(products.hasNext());
+    }
+
+    @Test
+    void testFindById_ProductNotFound() {
+        Product foundProduct = productRepository.findById(UUID.randomUUID().toString());
+        assertNull(foundProduct);
+    }
+
+    @Test
+    void testCreateProductWithNullValues() {
+        Product product = new Product();
+        product.setProductName(null);
+        product.setProductQuantity(0);
+        Product createdProduct = productRepository.create(product);
+
+        assertNotNull(createdProduct.getProductId());
+        assertNull(createdProduct.getProductName());
+        assertEquals(0, createdProduct.getProductQuantity());
+    }
+
+    @Test
+    void testUpdateProductWithNullValues() {
+        Product product = new Product();
+        product.setProductName("Product 1");
+        product.setProductQuantity(100);
+        product = productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName(null);
+        updatedProduct.setProductQuantity(0);
+        Product result = productRepository.update(product.getProductId(), updatedProduct);
+
+        assertNotNull(result);
+        Product foundProduct = productRepository.findById(product.getProductId());
+        assertNotNull(foundProduct);
+        assertNull(foundProduct.getProductName());
+        assertEquals(0, foundProduct.getProductQuantity());
+    }
+
+    @Test
+    void testDeleteNonExistentProduct() {
+        String nonExistentProductId = UUID.randomUUID().toString();
+        productRepository.delete(nonExistentProductId);
+
+        Product foundProduct = productRepository.findById(nonExistentProductId);
+        assertNull(foundProduct);
+    }
+
+    @Test
+    void testUpdateProductWithSameValues() {
+        Product product = new Product();
+        product.setProductName("Product 1");
+        product.setProductQuantity(100);
+        product = productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Product 1");
+        updatedProduct.setProductQuantity(100);
+        Product result = productRepository.update(product.getProductId(), updatedProduct);
+
+        assertNotNull(result);
+        Product foundProduct = productRepository.findById(product.getProductId());
+        assertNotNull(foundProduct);
+        assertEquals("Product 1", foundProduct.getProductName());
+        assertEquals(100, foundProduct.getProductQuantity());
+    }
+
+    @Test
+    void testCreateMultipleProductsAndDeleteOne() {
+        Product product1 = new Product();
+        product1.setProductName("Product 1");
+        product1.setProductQuantity(100);
+        product1 = productRepository.create(product1);
+
+        Product product2 = new Product();
+        product2.setProductName("Product 2");
+        product2.setProductQuantity(200);
+        product2 = productRepository.create(product2);
+
+        productRepository.delete(product1.getProductId());
+
+        Product foundProduct1 = productRepository.findById(product1.getProductId());
+        assertNull(foundProduct1);
+
+        Product foundProduct2 = productRepository.findById(product2.getProductId());
+        assertNotNull(foundProduct2);
+
+        Iterator<Product> products = productRepository.findAll();
+        assertTrue(products.hasNext());
+        assertEquals(product2.getProductId(), products.next().getProductId());
+        assertFalse(products.hasNext());
+    }
+
+    @Test
+    void testUpdateWhenProductListIsEmpty() {
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Updated Product");
+        updatedProduct.setProductQuantity(50);
+
+        Product result = productRepository.update(UUID.randomUUID().toString(), updatedProduct);
+        assertNull(result);
     }
 }
