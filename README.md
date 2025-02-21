@@ -4,6 +4,8 @@ NPM     : 2306215816
 
 Class    : B
 
+Deployment link: https://amazing-angelle-arya-raditya-4fabc1bd.koyeb.app/
+
 # Weekly Assignment 2
 ## Reflection
 > List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them
