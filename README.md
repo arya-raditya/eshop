@@ -4,12 +4,34 @@ NPM     : 2306215816
 
 Class    : B
 
-# Reflection 1: Coding Standards and Secure Coding
+# Weekly Assignment 2
+## Reflection
+> List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them
+
+1. Replacing the for loop with a foreach loop:
+
+The original code utilized a traditional for loop to iterate through the productData list. This approach, while functional, was considered unnecessarily verbose and carried a slightly elevated risk of errors, especially when compared to the more streamlined foreach loop. The primary concern stemmed from the fact that the loop index i was solely employed for accessing elements within the productData list using productData.get(i). This pattern is a strong indicator that a foreach loop would be a more appropriate choice, enhancing both readability and maintainability.
+
+To address this, I replaced the index-based for loop with a foreach loop, specifically for (Product product : productData). This construct directly iterates over the Product objects within the list, eliminating the need for an explicit index. Consequently, the index variable i was completely removed from the code, resulting in a simpler and more focused implementation. The benefits of this change include improved code readability, increased conciseness, and a reduced probability of introducing index-related errors, ultimately contributing to a more robust and maintainable codebase.
+
+2. Changing the import statements (addressed conceptually):
+
+The use of wildcard imports, such as import org.springframework.web.bind.annotation.*;, is generally discouraged in favor of more explicit import declarations. Wildcard imports introduce several potential drawbacks, including namespace pollution, reduced code clarity, and increased risks of compile-time conflicts. By importing all classes from a package, even those not actively used, wildcard imports can obscure the code's actual dependencies and make it harder to understand which classes are essential. Moreover, they can lead to naming collisions if different packages happen to contain classes with the same name.
+
+To mitigate these issues, the best practice is to replace wildcard imports with explicit imports for only the classes that are genuinely used within the code. For instance, instead of import org.springframework.web.bind.annotation.*;, the code would utilize individual import statements such as import org.springframework.web.bind.annotation.RequestMapping;, import org.springframework.web.bind.annotation.GetMapping;, and so on, for each specific annotation class used. This approach offers several advantages, including improved code clarity by making dependencies immediately apparent, reduced risk of naming conflicts due to explicitly defined imports, and enhanced maintainability as unused dependencies are easily identified and removed. By adopting explicit import declarations, the code becomes more self-documenting and less susceptible to unexpected issues related to namespace management.
+
+> Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
+
+Looking at the current CI/CD setup, I believe it largely fulfills the definition of Continuous Integration and Continuous Deployment, though reflection reveals opportunities for refinement. For example, the automated testing triggered by code pushes ensures changes are integrated and validated regularly, a core CI principle. The use of tools like Scoreboard, PMD, and Dependabot on each push contributes to ongoing code quality assessment. The automated deployment to Koyeb after successful CI completion demonstrates a functional CD pipeline, reducing manual steps and accelerating feature delivery. However, while I've established a basic CI/CD workflow, I recognize the need to continuously evaluate its efficiency and effectiveness. Perhaps the trigger conditions for certain checks could be optimized to reduce build times. Regarding the deployment process, while it's automated, I need to explore more sophisticated deployment strategies, like blue-green deployments, to minimize downtime during updates. This would further solidify the reliability and robustness of the entire CI/CD pipeline.
+
+
+# Weekly Assignment 1
+## Reflection 1: Coding Standards and Secure Coding
 > You already implemented two new features using Spring Boot. Check again your source code and evaluate the coding standards that you have learned in this module. Write clean code principles and secure coding practices that have been applied to your code.  If you find any mistake in your source code, please explain how to improve your code
 
 Throughout this assignment, I've consciously tried to implement several clean code principles and secure coding practices, although reviewing the code now reveals areas for improvement. For instance, I made sure to use descriptive variable and method names (e.g., productRepository, findById) to improve readability and maintainability. I also attempted to keep methods relatively short and focused on a single responsibility. However, I notice now that some of the if statement blocks within the repository methods, particularly in update and delete, could be extracted into separate helper functions to enhance code clarity. Regarding security, while this assignment didn't directly involve handling sensitive user data, I've incorporated input validation best practices in other Spring Boot projects, and recognize that we need to extend it here to anticipate all edge cases of product name and quantity, preventing potential exceptions later on. This would prevent common vulnerabilities and improve the overall robustness of the application. 
 
-# Reflection 2: Unit Test and Functional Test
+## Reflection 2: Unit Test and Functional Test
 > After writing the unit test, how do you feel? How many unit tests should be made in a class? How to make sure that our unit tests are enough to verify our program? It would be good if you learned about code coverage. Code coverage is a metric that can help you understand how much of your source is tested. If you have 100% code coverage, does that mean your code has no bugs or errors? 
 
 After writing the unit tests, I feel more confident in the reliability of the ProductRepository class. It's comforting to know that the core functionalities are behaving as expected. Ideally, the number of unit tests in a class should be sufficient to cover all possible execution paths and edge cases. There's no magic number; it depends on the complexity of the class. While I've tried to test the common scenarios, I recognize that more tests could be added to cover cases like invalid productId values or potential exceptions. Even with 100% code coverage, bugs and errors can still exist! Code coverage only measures which lines of code have been executed, not whether the tests are actually verifying the correctness of the logic within those lines. For example, a test could execute a line of code without properly asserting the expected outcome, thus missing a bug.
