@@ -3,50 +3,51 @@ import id.ac.ui.cs.advprog.eshop.model.Car;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import java.util.Iterator;
 
 @Repository
-public class CarRepository {
-    static int id = 0;
-    private List <Car> carData = new ArrayList<>();
-    public Car createCar(Car car) {
-        if(car.getCarId() == null){
-            UUID uuid = UUID.randomUUID();
-            car.setCarId(uuid.toString());
-        }
+public class CarRepository implements ItemRepositoryInterface<Car> {
+    private List<Car> carData = new ArrayList<>();
+
+    @Override
+    public Car create(Car car) {
+        car.setItemId(UUID.randomUUID().toString());
         carData.add(car);
         return car;
     }
 
-    public Iterator<Car> findAll(){
+    @Override
+    public Iterator<Car> findAll() {
         return carData.iterator();
     }
 
-    public Car findById(String id){
-        for(Car car : carData){
-            if(car.getCarId().equals(id)){
+    @Override
+    public Car findById(String id) {
+        for (Car car : carData) {
+            if (car.getItemId().equals(id)) {
                 return car;
             }
         }
         return null;
     }
 
+    @Override
     public Car update(String id, Car updatedCar) {
-        for(int i = 0; i < carData.size(); i++){
-            Car car = carData.get(i);
-            if(car.getCarId().equals(id)){
-                car.setCarId(updatedCar.getCarId());
-                car.setCarName(updatedCar.getCarName());
-                car.setCarQuantity(updatedCar.getCarQuantity());
+        for (Car car : carData) {
+            if (car.getItemId().equals(id)) {
+                car.setItemName(updatedCar.getItemName());
+                updatedCar.setCarColor(car.getCarColor()); // Assuming you want to update carColor as well
+                car.setItemQuantity(updatedCar.getItemQuantity());
                 return car;
             }
         }
         return null;
     }
 
+    @Override
     public void delete(String id) {
-        carData.removeIf(car -> car.getCarId().equals(id));
+        carData.removeIf(car -> car.getItemId().equals(id));
     }
 }

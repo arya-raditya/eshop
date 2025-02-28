@@ -9,40 +9,45 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class ProductRepository {
+public class ProductRepository implements ItemRepositoryInterface<Product> {
     private List<Product> productData = new ArrayList<>();
 
+    @Override
     public Product create(Product product) {
-        product.setProductId(UUID.randomUUID().toString()); 
+        product.setItemId(UUID.randomUUID().toString());
         productData.add(product);
         return product;
     }
 
+    @Override
     public Iterator<Product> findAll() {
         return productData.iterator();
     }
 
-    public Product findById(String productId) {
+    @Override
+    public Product findById(String id) {
         for (Product product : productData) {
-            if (product.getProductId().equals(productId)) {
+            if (product.getItemId().equals(id)) {
                 return product;
             }
         }
         return null;
     }
 
-    public Product update(String productId, Product updatedProduct) {
+    @Override
+    public Product update(String id, Product updatedProduct) {
         for (Product product : productData) {
-            if (product.getProductId().equals(productId)) {
-                product.setProductName(updatedProduct.getProductName());
-                product.setProductQuantity(updatedProduct.getProductQuantity());
+            if (product.getItemId().equals(id)) {
+                product.setItemName(updatedProduct.getItemName());
+                product.setItemQuantity(updatedProduct.getItemQuantity());
                 return product;
             }
         }
         return null;
     }
 
-    public void delete(String productId) {
-        productData.removeIf(product -> product.getProductId().equals(productId));
+    @Override
+    public void delete(String id) {
+        productData.removeIf(product -> product.getItemId().equals(id));
     }
 }
