@@ -32,14 +32,14 @@ public class ProductServiceImplTest {
     @BeforeEach
     void setUp() {
         product1 = new Product();
-        product1.setProductId(UUID.randomUUID().toString());
-        product1.setProductName("Product 1");
-        product1.setProductQuantity(10);
+        product1.setItemId(UUID.randomUUID().toString());
+        product1.setItemName("Product 1");
+        product1.setItemQuantity(10);
 
         product2 = new Product();
-        product2.setProductId(UUID.randomUUID().toString());
-        product2.setProductName("Product 2");
-        product2.setProductQuantity(20);
+        product2.setItemId(UUID.randomUUID().toString());
+        product2.setItemName("Product 2");
+        product2.setItemQuantity(20);
     }
 
     @Test
@@ -71,37 +71,37 @@ public class ProductServiceImplTest {
 
     @Test
     void testFindProductById() {
-        String productId = product1.getProductId();
-        when(productRepository.findById(productId)).thenReturn(product1);
+        String itemId = product1.getItemId();
+        when(productRepository.findById(itemId)).thenReturn(product1);
 
-        Product foundProduct = productService.findById(productId);
+        Product foundProduct = productService.findById(itemId);
 
         assertEquals(product1, foundProduct);
-        verify(productRepository, times(1)).findById(productId);
+        verify(productRepository, times(1)).findById(itemId);
     }
 
     @Test
     void testUpdateProduct() {
-        String productId = product1.getProductId();
+        String itemId = product1.getItemId();
         Product updatedProduct = new Product();
-        updatedProduct.setProductId(productId);
-        updatedProduct.setProductName("Updated Product Name");
-        updatedProduct.setProductQuantity(30);
+        updatedProduct.setItemId(itemId);
+        updatedProduct.setItemName("Updated Product Name");
+        updatedProduct.setItemQuantity(30);
 
-        when(productRepository.update(productId, updatedProduct)).thenReturn(updatedProduct);
+        when(productRepository.update(itemId, updatedProduct)).thenReturn(updatedProduct);
 
-        Product resultProduct = productService.update(productId, updatedProduct);
+        Product resultProduct = productService.update(itemId, updatedProduct);
 
         assertEquals(updatedProduct, resultProduct);
-        verify(productRepository, times(1)).update(productId, updatedProduct);
+        verify(productRepository, times(1)).update(itemId, updatedProduct);
     }
 
     @Test
     void testDeleteProduct() {
-        String productId = product1.getProductId();
+        String itemId = product1.getItemId();
 
-        productService.delete(productId);
+        productService.delete(itemId);
 
-        verify(productRepository, times(1)).delete(productId);
+        verify(productRepository, times(1)).delete(itemId);
     }
 }

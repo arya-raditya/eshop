@@ -9,23 +9,23 @@ public class ProductTest {
     @BeforeEach
     void setup() {
         this.product = new Product();
-        this.product.setProductId("123e4567-e89b-12d3-a456-556642440000");
-        this.product.setProductName("Product 1");
-        this.product.setProductQuantity(100);
+        this.product.setItemId("123e4567-e89b-12d3-a456-556642440000");
+        this.product.setItemName("Product 1");
+        this.product.setItemQuantity(100);
     }
 
     @Test
-    public void testGetProductId() {
-        assert(this.product.getProductId().equals("123e4567-e89b-12d3-a456-556642440000"));
+    public void testgetItemId() {
+        assert(this.product.getItemId().equals("123e4567-e89b-12d3-a456-556642440000"));
     }
 
     @Test
-    public void testGetProductName() {
-        assert(this.product.getProductName().equals("Product 1"));
+    public void testgetItemName() {
+        assert(this.product.getItemName().equals("Product 1"));
     }
 
     @Test
-    public void testGetProductQuantity() {
-        assert(this.product.getProductQuantity() == 100);
+    public void testgetItemQuantity() {
+        assert(this.product.getItemQuantity() == 100);
     }
 }

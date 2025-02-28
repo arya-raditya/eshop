@@ -53,9 +53,9 @@ public class ProductControllerTest {
     @Test
     void testCreateProductPost() throws Exception {
         Product product = new Product();
-        product.setProductId("123");
-        product.setProductName("Test Product");
-        product.setProductQuantity(10);
+        product.setItemId("123");
+        product.setItemName("Test Product");
+        product.setItemQuantity(10);
 
         mockMvc.perform(post("/product/create")
                         .flashAttr("product", product))
@@ -69,9 +69,9 @@ public class ProductControllerTest {
     void testProductListPage() throws Exception {
         List<Product> productList = new ArrayList<>();
         Product product1 = new Product();
-        product1.setProductId("1");
-        product1.setProductName("Product 1");
-        product1.setProductQuantity(10);
+        product1.setItemId("1");
+        product1.setItemName("Product 1");
+        product1.setItemQuantity(10);
         productList.add(product1);
 
         when(service.findAll()).thenReturn(productList);
@@ -85,9 +85,9 @@ public class ProductControllerTest {
     @Test
     void testEditProductPage() throws Exception {
         Product product = new Product();
-        product.setProductId("123");
-        product.setProductName("Test Product");
-        product.setProductQuantity(10);
+        product.setItemId("123");
+        product.setItemName("Test Product");
+        product.setItemQuantity(10);
 
         when(service.findById("123")).thenReturn(product);
 
@@ -109,9 +109,9 @@ public class ProductControllerTest {
     @Test
     void testEditProductPost() throws Exception {
         Product product = new Product();
-        product.setProductId("123");
-        product.setProductName("Updated Product");
-        product.setProductQuantity(20);
+        product.setItemId("123");
+        product.setItemName("Updated Product");
+        product.setItemQuantity(20);
 
         mockMvc.perform(post("/product/edit")
                         .flashAttr("product", product))
@@ -124,9 +124,9 @@ public class ProductControllerTest {
     @Test
     void testDeleteProductPage() throws Exception {
          Product product = new Product();
-        product.setProductId("123");
-        product.setProductName("Test Product");
-        product.setProductQuantity(10);
+        product.setItemId("123");
+        product.setItemName("Test Product");
+        product.setItemQuantity(10);
 
         when(service.findById("123")).thenReturn(product);
 
@@ -148,7 +148,7 @@ public class ProductControllerTest {
     @Test
     void testDeleteProductPost() throws Exception {
         Product product = new Product();
-        product.setProductId("123");
+        product.setItemId("123");
 
         mockMvc.perform(post("/product/delete")
                         .flashAttr("product", product))

@@ -15,12 +15,11 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car create(Car car) {
-        // TODO Auto generated method stub
-        return carRepository.createCar(car);
+        return carRepository.create(car);
     }
 
     @Override
-    public List<Car> findAll(){
+    public List<Car> findAll() {
         Iterator<Car> carIterator = carRepository.findAll();
         List<Car> carList = new ArrayList<>();
         carIterator.forEachRemaining(carList::add);
@@ -28,20 +27,22 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car findById(String carId){
-        Car car = carRepository.findById(carId);
-        return car;
+    public Car findById(String itemId) {
+        return carRepository.findById(itemId);
     }
 
     @Override
-    public void update(String carId, Car car) {
-        // TODO Auto generated method stub
-        carRepository.update(carId, car);
+    public Car update(String itemId, Car car) {
+        return carRepository.update(itemId, car);
     }
 
     @Override
-    public void deleteCarById(String carId) {
-        // TODO Auto generated method stub
-        carRepository.delete(carId);
+    public void delete(String itemId) {
+        carRepository.delete(itemId);
+    }
+
+    @Override
+    public void deleteCarById(String itemId) {
+        delete(itemId);
     }
 }
