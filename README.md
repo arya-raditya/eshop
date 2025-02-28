@@ -6,6 +6,38 @@ Class    : B
 
 Deployment link: https://amazing-angelle-arya-raditya-4fabc1bd.koyeb.app/
 
+# Weekly Assignment 3
+## Reflection
+
+> 1) Explain what principles you apply to your project!
+
+1. **Single Responsibility Principle (SRP)**: I apply the SRP by ensuring each part of my application has a focused responsibility. Models are for data, repositories for data access, services for business logic, and controllers for request handling. This separation ensures that changes in one area are less likely to impact others.
+
+2. **Open/Closed Principle (OCP)**: My project embraces the OCP by utilizing interfaces for services, repositories, and controllers, and abstract classes for models. This design allows me to extend functionalities by creating new implementations or subtypes without modifying the existing, stable code components.
+
+3. **Liskov Substitution Principle (LSP)**: I adhere to LSP by designing Product and Car as subtypes of Item in such a way that they can be seamlessly substituted for Item without causing unexpected behavior. This ensures that code designed to work with Item will also function correctly with Product and Car.
+
+4. **Interface Segregation Principle (ISP)**: I implement ISP by defining specific interfaces like CarService and ProductService, each tailored to the operations relevant to cars and products respectively. This prevents interfaces from becoming bloated and ensures that classes only need to implement the methods they actually use, promoting cleaner and more focused code.
+
+5. **Dependency Inversion Principle (DIP)**: DIP is central to my architecture, where controllers depend on service interfaces (ProductService, CarService) and not concrete implementations. This decoupling allows for easy swapping of service implementations, enhancing flexibility, testability, and maintainability by reducing dependencies on specific, concrete classes.
+
+> 2) Explain the advantages of applying SOLID principles to your project with examples.
+
+1. Applying SOLID principles significantly increases the maintainability of my project. By separating concerns and reducing dependencies, changes become localized and less likely to introduce unintended side effects, making it easier to update and adapt the application over time.
+
+2. Testability is greatly enhanced through SOLID principles. Decoupled components with single responsibilities are much simpler to test in isolation, allowing for more effective unit testing and a higher confidence in the correctness of individual modules and the system as a whole.
+
+3. SOLID principles lead to improved readability and understanding of the codebase. A clear separation of concerns and well-defined component responsibilities result in a more organized and intuitive structure, making it easier for developers to navigate, understand, and contribute to the project.
+
+> 3) Explain the disadvantages of not applying SOLID principles to your project with examples.
+
+1. Without SOLID principles, my project would suffer from decreased maintainability. Code would become tightly coupled and changes in one area could have unpredictable and cascading effects in other parts of the system, making modifications risky and time-consuming.
+
+2. Testability would be significantly reduced if SOLID principles were ignored. Tightly coupled and complex components would be difficult to test in isolation, requiring more complex and less effective integration tests and making it harder to ensure the quality and reliability of the application.
+
+3. Neglecting SOLID principles would result in a codebase that is harder to read and understand. Lack of clear separation of concerns and poorly defined responsibilities would lead to a more convoluted and less intuitive structure, increasing the cognitive load for developers and hindering effective collaboration and development speed.
+
+
 # Weekly Assignment 2
 ## Reflection
 > List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them
