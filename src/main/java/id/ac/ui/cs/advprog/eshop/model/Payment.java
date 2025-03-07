@@ -1,8 +1,11 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
 import lombok.Getter;
+
 import java.util.Map;
 import java.util.UUID;
+
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 
 @Getter
 public class Payment {
@@ -11,11 +14,6 @@ public class Payment {
     private String method;
     private Map<String, String> paymentData;
     private String status;
-    
-    public static final String STATUS_SUCCESS = "SUCCESS";
-    public static final String STATUS_REJECTED = "REJECTED";
-    public static final String METHOD_VOUCHER = "VOUCHER";
-    public static final String METHOD_TRANSFER_BANK = "TRANSFER_BANK";
 
     public Payment(Order order, String method, Map<String, String> paymentData) {
         if (order == null) {
@@ -29,9 +27,9 @@ public class Payment {
         this.method = method;
         this.paymentData = paymentData;
         if (paymentData == null) {
-            this.status = STATUS_REJECTED;
-        }else{
-            this.status = STATUS_SUCCESS;
+            this.status = PaymentStatus.REJECTED.getValue();
+        } else {
+            this.status = PaymentStatus.SUCCESS.getValue();
         }
     }
 
@@ -42,7 +40,8 @@ public class Payment {
         if (method == null || method.isEmpty()) {
             throw new IllegalArgumentException("Payment method cannot be null or empty");
         }
-        if (status == null || (!status.equals(STATUS_SUCCESS) && !status.equals(STATUS_REJECTED))) {
+        if (status == null || 
+            (!status.equals(PaymentStatus.SUCCESS.getValue()) && !status.equals(PaymentStatus.REJECTED.getValue()))) {
             throw new IllegalArgumentException("Invalid payment status provided");
         }
         this.order = order;
@@ -53,9 +52,12 @@ public class Payment {
     }
 
     public void setStatus(String status) {
-        if (status == null || (!status.equals(STATUS_SUCCESS) && !status.equals(STATUS_REJECTED))) {
+        if (status == null ||
+           (!status.equals(PaymentStatus.SUCCESS.getValue()) &&
+            !status.equals(PaymentStatus.REJECTED.getValue()))) {
             throw new IllegalArgumentException("Invalid payment status");
         }
         this.status = status;
     }
+
 }
