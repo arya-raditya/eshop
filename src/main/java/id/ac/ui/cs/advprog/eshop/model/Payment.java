@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.Map;
 import java.util.UUID;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
 import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 
 @Getter
@@ -29,7 +30,8 @@ public class Payment {
         if (paymentData == null) {
             this.status = PaymentStatus.REJECTED.getValue();
         } else {
-            this.status = PaymentStatus.SUCCESS.getValue();
+            boolean valid = validatePaymentData(paymentData);
+            this.status = valid ? PaymentStatus.SUCCESS.getValue() : PaymentStatus.REJECTED.getValue();
         }
     }
 
@@ -49,6 +51,15 @@ public class Payment {
         this.method = method;
         this.paymentData = paymentData;
         this.status = status;
+    }
+
+    private boolean validatePaymentData(Map<String, String> paymentData) {
+        if (this.method.equals(PaymentMethod.VOUCHER.getValue())) {
+            return PaymentVoucher.validatePaymentData(paymentData);
+        } else if (this.method.equals(PaymentMethod.TRANSFER_BANK.getValue())) {
+            return PaymentBankTransfer.validatePaymentData(paymentData);
+        }
+        return false;
     }
 
     public void setStatus(String status) {
