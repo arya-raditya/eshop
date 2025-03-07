@@ -6,6 +6,19 @@ Class    : B
 
 Deployment link: https://amazing-angelle-arya-raditya-4fabc1bd.koyeb.app/
 
+
+# Weekly Assignment 4
+## Reflection
+
+> Reflect based on Percival (2017) proposed self-reflective questions (in “Principles and Best Practice of Testing” submodule, chapter “Evaluating Your Testing Objectives”), whether this TDD flow is useful enough for you or not. If not, explain things that you need to do next time you make more tests.
+
+I found that writing tests before writing any functional code really forced me to think critically about what each part of the design should do. In this process I discovered that the act of clearly imagining expected outcomes and edge cases tends to clarify the requirements and helps shape a more robust implementation. In many ways, the TDD flow has been useful because it exposes ambiguities in the requirements early and guides me toward writing more modular, testable code. However, I also noticed occasions where the tests did not capture every subtle case or branch in the logic, and sometimes I needed to revisit them after developing the core functionality. Next time, I plan to spend extra time during the test-writing phase exploring more boundary conditions, designing tests for error scenarios, and considering integration aspects as well. This would help ensure that as requirements evolve, my tests not only serve as a specification but also cover all execution paths more comprehensively.
+
+> You have created unit tests in Tutorial. Now reflect whether your tests have successfully followed F.I.R.S.T. principle or not. If not, explain things that you need to do the next time you create more tests.
+
+Overall, I believe my tests are fairly fast, independent, repeatable, and timely given that they provide immediate feedback and help catch issues early in development. They are designed to be self-verifying through clear assertions of expected outcomes, which is very reassuring. That said, upon reflection, I see that my test suite could be improved to fully meet the F.I.R.S.T criteria. For example, while my tests exercise the common scenarios, there are still some untested branches and edge cases that remain uncovered. In future work, I will aim to craft additional tests that cover not only the “happy path” but also less-common situations and potential failure modes. Also, I’ll review and refine the tests regularly to ensure that each test remains focused (truly independent) and continues to verify distinct behavior in the face of refactoring. This added discipline will not only improve the overall reliability of the suite but also help me maintain trust in the tests as the project grows.
+
+
 # Weekly Assignment 3
 ## Reflection
 
